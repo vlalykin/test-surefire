@@ -25,7 +25,9 @@ public class JUnitParamsTest {
 
         return new Object[]{
                 new Object[]{container},
-                //new Object[]{container},
+                // the second test leads to build error (mvn test) because JUnitParams is passing description == null
+                // however, if you do not use surefire-junit47, then there is no error !
+                new Object[]{container},
                 new Object[]{new Container()}
         };
     }
@@ -34,7 +36,7 @@ public class JUnitParamsTest {
     @Parameters(method = "params")
     public void test1(Container container) {
         container.value = container.value + container.value;
+        System.out.println("value="+container.value);
         assertTrue(true);
-        System.out.println(container.value);
     }
 }

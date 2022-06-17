@@ -7,38 +7,17 @@
     <groupId>com.vlalykin</groupId>
     <version>1.0.0</version>
     <artifactId>test-surefire</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <modules></modules>
 
     <properties>
-        <groups>!com.peterservice.cnc.annotations.IntegrationTests</groups>
-        <failIfNoTests>false</failIfNoTests>
-
-        <!--=========== params ===========-->
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <web.artifact.scope>compile</web.artifact.scope>
-        <spring.artifact.scope>compile</spring.artifact.scope>
-        <artifact.scope>compile</artifact.scope>
-        <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
-
-        <!--=========== versions ===========-->
         <spring.boot.version>2.5.12</spring.boot.version>
-        <lombok.version>1.18.20</lombok.version>
-
-        <!--=========== Библиотеки общего назначения ===========-->
-        <slf4j.version>1.7.30</slf4j.version>
-        <logback.version>1.2.8</logback.version>
-        <logstash-logback.version>5.2</logstash-logback.version>
-
-        <!--=========== TEST ===========-->
         <junitparams-version>1.1.1</junitparams-version>
 
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <!--<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>-->
-        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
-        <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
+        <!-- you can use any version, i used 2.22.2 and 3.0.0-M7. I leave 2.22.2, because it is used in my project -->
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <!--<maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>-->
     </properties>
 
     <dependencyManagement>
@@ -61,48 +40,6 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <!--=========== Lombok ===========-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash-logback.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-
-        <dependency>                                        <!-- Adapter to slf4j, redirects in the logback -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>                                        <!--Adapter to log4j, redirects in the slf4j -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-        </dependency>
-
-        <!--=========== TEST ===========-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -111,25 +48,12 @@
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>pl.pragmatists</groupId>
             <artifactId>JUnitParams</artifactId>
             <version>${junitparams-version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -143,13 +67,14 @@
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
-                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
+                    <!-- if you do not use surefire-junit47 then there is no error (mvn test) !!! -->
                     <dependencies>
                         <dependency>
                             <groupId>org.apache.maven.surefire</groupId>
@@ -157,9 +82,6 @@
                             <version>${maven-surefire-plugin.version}</version>
                         </dependency>
                     </dependencies>
-                    <configuration>
-                        <groups>${groups}</groups>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
